@@ -147,8 +147,12 @@ function isReactClass(type) {
   return type.prototype && type.prototype.isReactComponent;
 }
 
+function isMobxObserver(type) {
+  return typeof type === "function" && type.name === "observerComponent"
+}
+
 function canPreserveStateBetween(prevType, nextType) {
-  if (isReactClass(prevType) || isReactClass(nextType)) {
+  if (isReactClass(prevType) || isReactClass(nextType) || isMobxObserver(nextType)) {
     return false;
   }
   if (haveEqualSignatures(prevType, nextType)) {
